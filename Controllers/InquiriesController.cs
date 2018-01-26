@@ -99,7 +99,15 @@ namespace student6.Controllers
                 return NotFound();
             }
 
+            
+
             var inquiry = await _context.Inquiry.SingleOrDefaultAsync(m => m.InquiryId == id);
+
+            var service = CRM.CrmService.GetServiceProvider();
+            var crmInquiry = service.Retrieve("jfn_inquiry", inquiry.InquiryId, new Microsoft.Xrm.Sdk.Query.ColumnSet("jfn_response"));
+
+            inquiry.Response = crmInquiry.GetAttributeValue<string>("jfn_response");
+
             if (inquiry == null)
             {
                 return NotFound();
@@ -124,6 +132,8 @@ namespace student6.Controllers
                 try
                 {
                     _context.Update(inquiry);
+
+
 
                     var service = CRM.CrmService.GetServiceProvider();
                     var crmInquiry = service.Retrieve("jfn_inquiry", inquiry.InquiryId, new Microsoft.Xrm.Sdk.Query.ColumnSet("jfn_question"));
