@@ -22,5 +22,7 @@ namespace student6.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public DbSet<student6.Models.Inquiry> Inquiry { get; set; }
     }
 }
